@@ -5,12 +5,13 @@ import { useCart } from '../context/CartContext';
 import { formatCurrency } from '../utils/currency';
 import Button from '../components/common/Button';
 import './Wishlist.css';
+import { Product } from '../types/product.types';
 
 const Wishlist: React.FC = () => {
   const { wishlist, removeFromWishlist, clearWishlist } = useWishlist();
   const { addToCart, isInCart } = useCart();
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     addToCart(product);
   };
 

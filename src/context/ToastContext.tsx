@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, type ReactNode, useCallback } from 'react';
 
@@ -33,20 +33,23 @@ interface ToastProviderProps {
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const showToast = useCallback((message: string, type: ToastType = 'info') => {
-    const id = `${Date.now()}-${Math.random()}`;
-    const newToast: Toast = { id, message, type };
-    
-    setToasts((prev) => [...prev, newToast]);
- const removeToast = useCallback((id: string) => {
+  const removeToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
-    setTimeout(() => {
-      removeToast(id);
-    }, 3000);
-  }, []);
 
- 
+  const showToast = useCallback(
+    (message: string, type: ToastType = 'info') => {
+      const id = `${Date.now()}-${Math.random()}`;
+      const newToast: Toast = { id, message, type };
+
+      setToasts((prev) => [...prev, newToast]);
+
+      setTimeout(() => {
+        removeToast(id);
+      }, 3000);
+    },
+    [removeToast]
+  );
 
   return (
     <ToastContext.Provider value={{ toasts, showToast, removeToast }}>
